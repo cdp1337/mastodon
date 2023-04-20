@@ -204,8 +204,9 @@ class Item extends React.PureComponent {
       );
     }
 
+    // style={{ left: left, top: top, right: right, bottom: bottom, width: `${width}%`, height: `${height}%` }}
     return (
-      <div className={classNames('media-gallery__item', { standalone })} key={attachment.get('id')} style={{ left: left, top: top, right: right, bottom: bottom, width: `${width}%`, height: `${height}%` }}>
+      <div className={classNames('media-gallery__item', { standalone })} key={attachment.get('id')}>
         <Blurhash
           hash={attachment.get('blurhash')}
           dummy={!useBlurhash}
@@ -310,32 +311,20 @@ class MediaGallery extends React.PureComponent {
   }
 
   render () {
-    const { media, intl, sensitive, height, defaultWidth, standalone, autoplay } = this.props;
+    const { media, intl, sensitive, defaultWidth, standalone, autoplay } = this.props;
     const { visible } = this.state;
 
     const width = this.state.width || defaultWidth;
 
     let children, spoilerButton;
 
-    const style = {};
-
-    if (this.isFullSizeEligible() && (standalone || !cropImages)) {
-      if (width) {
-        style.height = width / this.props.media.getIn([0, 'meta', 'small', 'aspect']);
-      }
-    } else if (width) {
-      style.height = width / (16/9);
-    } else {
-      style.height = height;
-    }
-
-    const size     = media.take(4).size;
+    const size     = media.take(24).size;
     const uncached = media.every(attachment => attachment.get('type') === 'unknown');
 
     if (standalone && this.isFullSizeEligible()) {
       children = <Item standalone autoplay={autoplay} onClick={this.handleClick} attachment={media.get(0)} displayWidth={width} visible={visible} />;
     } else {
-      children = media.take(4).map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} size={size} displayWidth={width} visible={visible || uncached} />);
+      children = media.take(24).map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} size={size} displayWidth={width} visible={visible || uncached} />);
     }
 
     if (uncached) {
@@ -355,7 +344,7 @@ class MediaGallery extends React.PureComponent {
     }
 
     return (
-      <div className='media-gallery' style={style} ref={this.handleRef}>
+      <div className='media-gallery' data-total-items={size} ref={this.handleRef}>
         <div className={classNames('spoiler-button', { 'spoiler-button--minified': visible && !uncached, 'spoiler-button--click-thru': uncached })}>
           {spoilerButton}
         </div>

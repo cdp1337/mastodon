@@ -1,3 +1,57 @@
+@mixin media-gallery {
+  margin-top: 16px;
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+
+  &[data-total-items='1'] {
+    .media-gallery__item {
+      flex: 1 100%;
+    }
+  }
+
+  &[data-total-items='2'],
+  &[data-total-items='4'] {
+    // 2-elements per row
+    .media-gallery__item {
+      flex: 1 40%;
+    }
+  }
+
+  &[data-total-items='3'],
+  &[data-total-items='5'],
+  &[data-total-items='6'],
+  &[data-total-items='7'] {
+    // 3-elements per row
+    .media-gallery__item {
+      flex: 1 30%;
+    }
+  }
+
+  &[data-total-items='8'],
+  &[data-total-items='9'],
+  &[data-total-items='10'],
+  &[data-total-items='11'],
+  &[data-total-items='12'],
+  &[data-total-items='13'],
+  &[data-total-items='14'],
+  &[data-total-items='15'],
+  &[data-total-items='16'],
+  &[data-total-items='17'],
+  &[data-total-items='18'],
+  &[data-total-items='19'],
+  &[data-total-items='20'],
+  &[data-total-items='21'],
+  &[data-total-items='22'],
+  &[data-total-items='23'],
+  &[data-total-items='24'] {
+    // 4-elements per row
+    .media-gallery__item {
+      flex: 1 20%;
+    }
+  }
+}
+
 .app-body {
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -1091,7 +1145,7 @@ body > [data-popper-placement] {
   .video-player,
   .audio-player,
   .attachment-list {
-    margin-top: 16px;
+    @include media-gallery;
   }
 
   &.light {
@@ -1297,7 +1351,7 @@ body > [data-popper-placement] {
   .media-gallery,
   .video-player,
   .audio-player {
-    margin-top: 16px;
+    @include media-gallery;
   }
 }
 
