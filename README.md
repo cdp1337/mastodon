@@ -76,13 +76,44 @@ Mastodon acts as an OAuth2 provider, so 3rd party apps can use the REST and Stre
 
 The repository includes deployment configurations for **Docker and docker-compose** as well as specific platforms like **Heroku**, **Scalingo**, and **Nanobox**. For Helm charts, reference the [mastodon/chart repository](https://github.com/mastodon/chart). The [**standalone** installation guide](https://docs.joinmastodon.org/admin/install/) is available in the documentation.
 
-A **Vagrant** configuration is included for development purposes. To use it, complete following steps:
+## Development
 
-- Install Vagrant and Virtualbox
-- Install the `vagrant-hostsupdater` plugin: `vagrant plugin install vagrant-hostsupdater`
-- Run `vagrant up`
-- Run `vagrant ssh -c "cd /vagrant && foreman start"`
-- Open `http://mastodon.local` in your browser
+### Quick start with Vagrant
+
+A **Vagrant** configuration is included for development purposes. To use it, complete following steps (tested on Debian 12):
+
+```bash
+sudo apt install vagrant qemu-system libvirt-daemon-system
+sudo adduser $USER libvirt
+sudo vagrant plugin install vagrant-hostsupdater
+```
+
+Logout / login to update your user profile with the libvirt group (so you can start and stop VMs, otherwise only root can do so).
+
+Vagrant's HostUpdater plugin _should_ update your `/etc/hosts` with the hostname `mastodon.local` so you can access the virtual machine via the development hostname. If not, add an entry manually.
+
+The virtual machine can then be started:
+
+```bash
+vagrant up
+```
+
+Once the virtual machine has been started, you may launch the Foreman task executor to launch the various Mastodon processes:
+
+```bash
+vagrant ssh -c "cd /vagrant && foreman start"
+```
+
+Once the Mastodon processes have fully started up, you can load `http://mastodon.local` in your browser to access the Mastodon instance within the VM. You can log in as the default admin user with the username `admin@mastodon.local` and the password `mastodonadmin`.
+
+Any changes to the source code will be reflected after saving your files.
+
+To reset the VM to a fresh state, you can destroy it and bring it up again:
+
+```bash
+vagrant destroy
+vagrant up
+```
 
 ## Contributing
 
