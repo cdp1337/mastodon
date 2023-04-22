@@ -16,6 +16,7 @@ class UpdateStatusService < BaseService
   # @option options [String] :spoiler_text
   # @option options [Boolean] :sensitive
   # @option options [String] :language
+  # @option options [String] :content_type
   def call(status, account_id, options = {})
     @status                    = status
     @options                   = options
@@ -116,6 +117,7 @@ class UpdateStatusService < BaseService
     # We raise here to rollback the entire transaction
     raise NoChangesSubmittedError unless significant_changes?
 
+    @status.content_type = @options[:content_type] || @status.content_type
     @status.edited_at = Time.now.utc
     @status.save!
   end

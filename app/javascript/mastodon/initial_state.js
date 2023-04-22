@@ -134,6 +134,10 @@ export const usePendingItems = getMeta('use_pending_items');
 export const version = getMeta('version');
 export const translationEnabled = getMeta('translation_enabled');
 export const languages = initialState?.languages;
+// Support for different content types on posts
+export const defaultContentType = getMeta('default_content_type');
+
+// @ts-expect-error
 export const statusPageUrl = getMeta('status_page_url');
 
 export default initialState;
