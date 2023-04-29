@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'kramdown'
+require 'kramdown-parser-gfm'
+
+
 class AdvancedTextFormatter < TextFormatter
   class HTMLRenderer < Redcarpet::Render::HTML
     def initialize(options, &block)
@@ -97,8 +101,13 @@ class AdvancedTextFormatter < TextFormatter
   private
 
   def format_markdown(html)
-    html = markdown_formatter.render(html)
-    html.delete("\r").delete("\n")
+    # if redcarpet @todo
+    #html = markdown_formatter.render(html)
+    options = {
+      input: 'GFM',
+    }
+    html = Kramdown::Document.new(html, options).to_html
+    # html.delete("\r").delete("\n")
   end
 
   def markdown_formatter
