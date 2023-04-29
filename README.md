@@ -108,12 +108,52 @@ Once the Mastodon processes have fully started up, you can load `http://mastodon
 
 Any changes to the source code will be reflected after saving your files.
 
+### Resetting Development Environment
+
 To reset the VM to a fresh state, you can destroy it and bring it up again:
 
 ```bash
 vagrant destroy
 vagrant up
 ```
+
+This will completely erase all data in the development instance and repopulate it clean from code.
+
+### Updating Assets
+
+Sometimes assets need to be precompiled, (though not too common).
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle exec rails assets:precompile"
+```
+
+### Updated Gemfile and Install Packages
+
+When the `Gemfile` has packages updated, the following will install the new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle install"
+```
+
+You will need to restart the instance for these changes to take effect.
+
+### Updated package.json
+
+When the `package.json` npm has packages updated, the following will install new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && npm update"
+```
+
+### Getting Started with GitHub Codespaces
+
+To get started, create a codespace for this repository by clicking this 👇
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=52281283)
+
+A codespace will open in a web-based version of Visual Studio Code. The [dev container](.devcontainer/devcontainer.json) is fully configured with software needed for this project.
+
+**Note**: Dev containers is an open spec which is supported by [GitHub Codespaces](https://github.com/codespaces) and [other tools](https://containers.dev/supporting).
 
 ## Contributing
 
