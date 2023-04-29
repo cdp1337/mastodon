@@ -7,6 +7,26 @@ GIT
       hkdf (~> 0.2)
       jwt (~> 2.0)
 
+GIT
+  remote: https://github.com/kreeti/kt-paperclip.git
+  revision: 11abf222dc31bff71160a1d138b445214f434b2b
+  ref: 11abf222dc31bff71160a1d138b445214f434b2b
+  specs:
+    kt-paperclip (7.1.1)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      marcel (~> 1.0.1)
+      mime-types
+      terrapin (~> 0.6.0)
+
+GIT
+  remote: https://github.com/mastodon/rails-settings-cached.git
+  revision: 86328ef0bd04ce21cc0504ff5e334591e8c2ccab
+  branch: v0.6.6-aliases-true
+  specs:
+    rails-settings-cached (0.6.6)
+      rails (>= 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -361,6 +381,10 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    kramdown (2.4.0)
+      rexml
+    kramdown-parser-gfm (1.1.0)
+      kramdown (~> 2.0)
     kt-paperclip (7.1.1)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -811,6 +835,8 @@ DEPENDENCIES
   json-ld-preloaded (~> 3.2)
   json-schema (~> 3.0)
   kaminari (~> 1.2)
+  kramdown (~> 2.4)
+  kramdown-parser-gfm
   kt-paperclip (~> 7.1)
   letter_opener (~> 1.8)
   letter_opener_web (~> 2.0)
