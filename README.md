@@ -106,11 +106,41 @@ Once the Mastodon processes have fully started up, you can load `http://mastodon
 
 Any changes to the source code will be reflected after saving your files.
 
+### Resetting Development Environment
+
 To reset the VM to a fresh state, you can destroy it and bring it up again:
 
 ```bash
 vagrant destroy
 vagrant up
+```
+
+This will completely erase all data in the development instance and repopulate it clean from code.
+
+### Updating Assets
+
+Sometimes assets need to be precompiled, (though not too common).
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle exec rails assets:precompile"
+```
+
+### Updated Gemfile and Install Packages
+
+When the `Gemfile` has packages updated, the following will install the new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle install"
+```
+
+You will need to restart the instance for these changes to take effect.
+
+### Updated package.json
+
+When the `package.json` npm has packages updated, the following will install new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && npm update"
 ```
 
 ### Getting Started with GitHub Codespaces
