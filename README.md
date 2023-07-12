@@ -76,13 +76,84 @@ Mastodon acts as an OAuth2 provider, so 3rd party apps can use the REST and Stre
 
 The repository includes deployment configurations for **Docker and docker-compose** as well as specific platforms like **Heroku**, **Scalingo**, and **Nanobox**. For Helm charts, reference the [mastodon/chart repository](https://github.com/mastodon/chart). The [**standalone** installation guide](https://docs.joinmastodon.org/admin/install/) is available in the documentation.
 
-A **Vagrant** configuration is included for development purposes. To use it, complete following steps:
+## Development
 
-- Install Vagrant and Virtualbox
-- Install the `vagrant-hostsupdater` plugin: `vagrant plugin install vagrant-hostsupdater`
-- Run `vagrant up`
-- Run `vagrant ssh -c "cd /vagrant && foreman start"`
-- Open `http://mastodon.local` in your browser
+### Quick start with Vagrant
+
+A **Vagrant** configuration is included for development purposes. To use it, complete following steps (tested on Debian 12):
+
+```bash
+sudo apt install vagrant qemu-system libvirt-daemon-system
+sudo adduser $USER libvirt
+sudo vagrant plugin install vagrant-hostsupdater
+```
+
+Logout / login to update your user profile with the libvirt group (so you can start and stop VMs, otherwise only root can do so).
+
+Vagrant's HostUpdater plugin _should_ update your `/etc/hosts` with the hostname `mastodon.local` so you can access the virtual machine via the development hostname. If not, add an entry manually.
+
+The virtual machine can then be started:
+
+```bash
+vagrant up
+```
+
+Once the virtual machine has been started, you may launch the Foreman task executor to launch the various Mastodon processes:
+
+```bash
+vagrant ssh -c "cd /vagrant && foreman start"
+```
+
+Once the Mastodon processes have fully started up, you can load `http://mastodon.local` in your browser to access the Mastodon instance within the VM. You can log in as the default admin user with the username `admin@mastodon.local` and the password `mastodonadmin`.
+
+Any changes to the source code will be reflected after saving your files.
+
+### Resetting Development Environment
+
+To reset the VM to a fresh state, you can destroy it and bring it up again:
+
+```bash
+vagrant destroy
+vagrant up
+```
+
+This will completely erase all data in the development instance and repopulate it clean from code.
+
+### Updating Assets
+
+Sometimes assets need to be precompiled, (though not too common).
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle exec rails assets:precompile"
+```
+
+### Updated Gemfile and Install Packages
+
+When the `Gemfile` has packages updated, the following will install the new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle install"
+```
+
+You will need to restart the instance for these changes to take effect.
+
+### Updated package.json
+
+When the `package.json` npm has packages updated, the following will install new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && npm update"
+```
+
+### Getting Started with GitHub Codespaces
+
+To get started, create a codespace for this repository by clicking this 👇
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=52281283)
+
+A codespace will open in a web-based version of Visual Studio Code. The [dev container](.devcontainer/devcontainer.json) is fully configured with software needed for this project.
+
+**Note**: Dev containers is an open spec which is supported by [GitHub Codespaces](https://github.com/codespaces) and [other tools](https://containers.dev/supporting).
 
 ## Contributing
 
