@@ -21,7 +21,7 @@ module Mastodon
     end
 
     def suffix
-      ''
+      '~cdp1337'
     end
 
     def to_a
