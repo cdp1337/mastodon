@@ -78,13 +78,72 @@ The repository includes deployment configurations for **Docker and docker-compos
 
 ### Vagrant
 
-A **Vagrant** configuration is included for development purposes. To use it, complete the following steps:
+### Quick start with Vagrant
 
-- Install Vagrant and Virtualbox
-- Install the `vagrant-hostsupdater` plugin: `vagrant plugin install vagrant-hostsupdater`
-- Run `vagrant up`
-- Run `vagrant ssh -c "cd /vagrant && foreman start"`
-- Open `http://mastodon.local` in your browser
+A **Vagrant** configuration is included for development purposes. To use it, complete following steps (tested on Debian 12):
+
+```bash
+sudo apt install vagrant qemu-system libvirt-daemon-system
+sudo adduser $USER libvirt
+sudo vagrant plugin install vagrant-hostsupdater
+```
+
+Logout / login to update your user profile with the libvirt group (so you can start and stop VMs, otherwise only root can do so).
+
+Vagrant's HostUpdater plugin _should_ update your `/etc/hosts` with the hostname `mastodon.local` so you can access the virtual machine via the development hostname. If not, add an entry manually.
+
+The virtual machine can then be started:
+
+```bash
+vagrant up
+```
+
+Once the virtual machine has been started, you may launch the Foreman task executor to launch the various Mastodon processes:
+
+```bash
+vagrant ssh -c "cd /vagrant && foreman start"
+```
+
+Once the Mastodon processes have fully started up, you can load `http://mastodon.local` in your browser to access the Mastodon instance within the VM. You can log in as the default admin user with the username `admin@mastodon.local` and the password `mastodonadmin`.
+
+Any changes to the source code will be reflected after saving your files.
+
+### Resetting Development Environment
+
+To reset the VM to a fresh state, you can destroy it and bring it up again:
+
+```bash
+vagrant destroy
+vagrant up
+```
+
+This will completely erase all data in the development instance and repopulate it clean from code.
+
+### Updating Assets
+
+Sometimes assets need to be precompiled, (though not too common).
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle exec rails assets:precompile"
+```
+
+### Updated Gemfile and Install Packages
+
+When the `Gemfile` has packages updated, the following will install the new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && RAILS_ENV=development bundle install"
+```
+
+You will need to restart the instance for these changes to take effect.
+
+### Updated package.json
+
+When the `package.json` npm has packages updated, the following will install new packages in the development environment:
+
+```bash
+vagrant ssh -c "cd /vagrant && npm update"
+```
 
 ### MacOS
 
