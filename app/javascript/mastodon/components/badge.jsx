@@ -7,22 +7,32 @@ import { ReactComponent as PersonIcon } from '@material-design-icons/svg/outline
 import { ReactComponent as SmartToyIcon } from '@material-design-icons/svg/outlined/smart_toy.svg';
 
 
-export const Badge = ({ icon, label, domain }) => (
-  <div className='account-role'>
-    {icon}
-    {label}
-    {domain && <span className='account-role__domain'>{domain}</span>}
-  </div>
-);
+export const Badge = ({ icon, label, domain, color }) => {
+
+  let styles = {
+    borderColor: color,
+    color: color
+  };
+
+  return (
+    <div className='account-role' style={styles}>
+      {icon}
+      {label}
+      {domain && <span className='account-role__domain'>{domain}</span>}
+    </div>
+  );
+};
 
 Badge.propTypes = {
   icon: PropTypes.node,
   label: PropTypes.node,
   domain: PropTypes.node,
+  color: PropTypes.node,
 };
 
 Badge.defaultProps = {
   icon: <PersonIcon />,
+  color: '#8c8dff',
 };
 
 export const GroupBadge = () => (
