@@ -9,6 +9,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
 import { AnimatedNumber } from 'mastodon/components/animated_number';
+import { Badge } from 'mastodon/components/badge';
 import EditedTimestamp from 'mastodon/components/edited_timestamp';
 import { getHashtagBarForStatus } from 'mastodon/components/hashtag_bar';
 import { Icon }  from 'mastodon/components/icon';
@@ -295,6 +296,11 @@ class DetailedStatus extends ImmutablePureComponent {
     const {statusContentProps, hashtagBar} = getHashtagBarForStatus(status);
     const expanded = !status.get('hidden') || status.get('spoiler_text').length === 0;
 
+    let badges = [];
+    status.get('account').get('roles', []).forEach((role) => {
+      badges.push(<Badge key={`role-badge-${role.get('id')}`} label={<span>{role.get('name')}</span>} color={role.get('color')} />);
+    });
+
     return (
       <div style={outerStyle}>
         <div ref={this.setRef} className={classNames('detailed-status', { compact })}>
@@ -307,6 +313,12 @@ class DetailedStatus extends ImmutablePureComponent {
           <a href={`/@${status.getIn(['account', 'acct'])}`} onClick={this.handleAccountClick} className='detailed-status__display-name'>
             <div className='detailed-status__display-avatar'><Avatar account={status.get('account')} size={46} /></div>
             <DisplayName account={status.get('account')} localDomain={this.props.domain} />
+
+            {badges.length > 0 && (
+              <div className='status__account__badges'>
+                {badges}
+              </div>
+            )}
           </a>
 
           <StatusContent

@@ -1209,6 +1209,16 @@ body > [data-popper-placement] {
       text-overflow: ellipsis;
     }
   }
+
+  .status__account__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .account-role {
+      font-size: 11px;
+    }
+  }
 }
 
 .status__info {
